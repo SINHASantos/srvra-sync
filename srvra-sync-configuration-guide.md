@@ -100,6 +100,7 @@ autoResolveThreshold: 0.8 // 80% confidence required
 
 ## Enterprise Optimization
 // High-performance configuration
+```javascript
 
 const enterpriseConfig = {
     ...DEFAULT_SYNC_CONFIG,
@@ -109,8 +110,9 @@ const enterpriseConfig = {
     enableDeltaUpdates: true,
     compressionThreshold: 512
 };
-
+```
 // Reliability-focused configuration
+```javascript
 
 const reliableConfig = {
     ...DEFAULT_SYNC_CONFIG,
@@ -119,7 +121,7 @@ const reliableConfig = {
     trackHistory: true,
     maxRetries: 5
 };
-
+```
 ## Performance Monitoring
 
 Monitor these configuration impacts:
