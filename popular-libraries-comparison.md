@@ -1,10 +1,19 @@
 # SRVRA Sync vs Popular State Management Libraries
 
+## Bundle Size Comparison
+
+| Library | Production Bundle | Full Source |
+|---------|------------------|-------------|
+| SRVRA Sync | [TINY] 12.4 KB | [LIGHT] 34.8 KB |
+| Redux | [MED] 16.4 KB | [MED] 56.4 KB |
+| MobX | [LARGE] 22.8 KB | [LARGE] 58.2 KB |
+| Zustand | [MED] 14.2 KB | [MED] 42.1 KB |
+| Recoil | [LARGE] 24.6 KB | [LARGE] 62.8 KB |
+
 ## Feature Comparison
 
 | Feature | SRVRA Sync | Redux | MobX | Zustand | Recoil |
 |---------|------------|-------|------|---------|--------|
-| Bundle Size | [TINY] 34.8 KB | [MED] 56.4 KB | [MED] 58.2 KB | [SMALL] 42.1 KB | [MED] 62.8 KB |
 | Real-time Sync | [YES] Native | [NO] | [NO] | [NO] | [NO] |
 | State Updates | [HIGH] 10M/s | [MED] 500K/s | [MED] 800K/s | [MED] 600K/s | [MED] 400K/s |
 | Enterprise Features | [YES] Built-in | [NO] | [NO] | [NO] | [NO] |
@@ -22,29 +31,29 @@
 ## Implementation Example
 
 ```javascript
-// SRVRA Sync
+// SRVRA Sync - Enterprise-grade simplicity
 import { SrvraSync } from 'srvra-sync';
 const sync = new SrvraSync();
 sync.setState('data', value);
 
-// Redux
+// Redux - Traditional approach
 import { createStore } from 'redux';
 const store = createStore(reducer);
 store.dispatch({ type: 'UPDATE', payload: value });
 
-// MobX
+// MobX - Reactive programming
 import { makeAutoObservable } from 'mobx';
 class Store { 
     constructor() { makeAutoObservable(this); }
 }
 
-// Zustand
+// Zustand - Hook-based
 import create from 'zustand';
 const useStore = create(set => ({
     data: value,
     update: (v) => set({ data: v })
 }));
 
-// Recoil
+// Recoil - Atomic model
 import { atom, useRecoilState } from 'recoil';
 const dataState = atom({ key: 'data', default: value });
