@@ -97,12 +97,18 @@ const syncEngine = new SrvraDataSync({
     retryAttempts: 3,
     batchSize: 100,
     enableDeltaUpdates: true,
-    
+```
+   
     // State Management
+```javascript
+   
     historySize: 50,
     enableVersioning: true,
+```
     
     // Conflict Resolution
+   ```javascript
+
     mergeStrategy: 'smart-merge',
     autoResolveThreshold: 0.8
 });
@@ -117,21 +123,31 @@ const syncEngine = new SrvraDataSync({
     syncInterval: 30000,
     enableDeltaUpdates: true
 });
+```
 
 // Set state with versioning
+
+```javascript
+
 syncEngine.stateManager.setState('userProfile', {
     name: 'John Doe',
     preferences: { theme: 'dark' }
 });
+```
 
 // Get state with metadata
+```javascript
+
 const state = syncEngine.stateManager.getState('userProfile', { 
     withMetadata: true 
 });
 ```
 
 #### Real-time Sync with Subscribers
+
 // Subscribe to changes with priority
+```javascript
+
 const subscriberId = syncEngine.stateManager.subscribe(
     'userProfile',
     (value, update) => {
@@ -139,16 +155,22 @@ const subscriberId = syncEngine.stateManager.subscribe(
     },
     { priority: 'high' }
 );
+```
 
 // Batch updates
+```javascript
+
 syncEngine.stateManager.batch([
     { key: 'preferences', value: { theme: 'light' } },
     { key: 'notifications', value: { enabled: true } }
 ]);
 
+```
 
 #### Conflict Resolution
 // Custom merge strategy
+```javascript
+
 syncEngine.conflictResolver.registerCustomStrategy(
     'preference-merge',
     (conflict) => ({
@@ -159,8 +181,10 @@ syncEngine.conflictResolver.registerCustomStrategy(
         }
     })
 );
+```
 
 // Handle specific conflicts
+```javascript
 syncEngine.eventBus.subscribe('conflict', (event) => {
     if (event.key === 'userProfile') {
         return syncEngine.conflictResolver.resolveConflict({
@@ -169,50 +193,66 @@ syncEngine.eventBus.subscribe('conflict', (event) => {
         });
     }
 });
+```
 
 #### Delta Updates
 
 // Enable delta tracking
+```javascript
+
 syncEngine.setState('document', {
     content: 'Initial content',
     metadata: { version: 1 }
 }, {
     enableDeltaUpdates: true
 });
+```
 
 // Update with delta tracking
+```javascript
 syncEngine.setState('document', {
     content: 'Updated content',
     metadata: { version: 2 }
 });
 
+```
 
 #### Event Handling
 // Subscribe to sync events
+```javascript
+
 syncEngine.eventBus.subscribe('sync-complete', (event) => {
     console.log('Sync completed:', event.changes);
 });
+```
 
 // Handle network status
+```javascript
 syncEngine.eventBus.subscribe('network-status', (status) => {
     if (status === 'offline') {
         // Handle offline mode
     }
 });
+```
 
 #### Advanced State Operations
 // State with history tracking
+```javascript
 const stateWithHistory = syncEngine.stateManager.setState('audit', {
     actions: [],
     lastUpdate: Date.now()
 }, { trackHistory: true });
+```
 
 // Get sync statistics
+```javascript
 const stats = syncEngine.getStatistics();
 console.log('Sync stats:', stats);
+```
 
 #### Enterprise Features
 // Compression for large datasets
+```javascript
 syncEngine.setState('largeDataset', data, {
     compression: true,
     compressionThreshold: 1024
