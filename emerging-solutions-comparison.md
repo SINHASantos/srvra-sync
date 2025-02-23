@@ -59,6 +59,7 @@ const store = init({
 // Easy Peasy - Redux simplified
 import { createStore, action } from 'easy-peasy';
 const store = createStore({ data: value });
+```
 
 ## Unique Features
 
