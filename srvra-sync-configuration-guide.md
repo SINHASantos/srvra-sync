@@ -100,6 +100,7 @@ autoResolveThreshold: 0.8 // 80% confidence required
 
 ## Enterprise Optimization
 // High-performance configuration
+
 const enterpriseConfig = {
     ...DEFAULT_SYNC_CONFIG,
     syncInterval: 5000,
@@ -110,6 +111,7 @@ const enterpriseConfig = {
 };
 
 // Reliability-focused configuration
+
 const reliableConfig = {
     ...DEFAULT_SYNC_CONFIG,
     retryAttempts: 5,
