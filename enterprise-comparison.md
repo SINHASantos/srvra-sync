@@ -4,7 +4,7 @@
 
 | Feature | SRVRA Sync | Apollo Client | React Query | TanStack Query | Akita |
 |---------|------------|---------------|-------------|----------------|-------|
-| Bundle Size | [TINY] 34.8 KB | [LARGE] 143 KB | [MED] 98.4 KB | [LARGE] 116 KB | [MED] 89 KB |
+| Bundle Size | [TINY] 12.4 KB | [LARGE] 143 KB | [MED] 98.4 KB | [LARGE] 116 KB | [MED] 89 KB |
 | Real-time Sync | [YES] Native | [PARTIAL] Plugin | [NO] | [NO] | [PARTIAL] Plugin |
 | Offline Support | [YES] Built-in | [PARTIAL] Plugin | [YES] Built-in | [YES] Built-in | [NO] |
 | Multi-node Sync | [YES] Built-in | [PARTIAL] GraphQL | [NO] | [NO] | [NO] |
