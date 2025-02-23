@@ -69,11 +69,12 @@
 
 | Solution | Setup Time | Learning Curve | Documentation |
 |----------|------------|----------------|---------------|
-| SRVRA Sync | ? Simple | ? Moderate | ??? Extensive |
-| Apollo | ??? Complex | ??? Steep | ??? Extensive |
-| React Query | ?? Moderate | ?? Moderate | ?? Good |
-| TanStack | ?? Moderate | ?? Moderate | ?? Good |
-| Akita | ?? Moderate | ?? Moderate | ? Basic |
+| SRVRA Sync | [+] Simple | [++] Moderate | [+++] Extensive |
+| Apollo | [+++] Complex | [+++] Steep | [+++] Extensive |
+| React Query | [++] Moderate | [++] Moderate | [++] Good |
+| TanStack | [++] Moderate | [++] Moderate | [++] Good |
+| Akita | [++] Moderate | [++] Moderate | [+] Basic |
+
 
 ## Use Case Recommendations
 
