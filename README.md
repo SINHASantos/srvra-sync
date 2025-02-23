@@ -59,24 +59,6 @@ SRVRA Sync is a powerful component of the SRVRA Enterprise UI Engine that combin
    - Queue management
    - Sync statistics
 
-### Configuration
-```javascript
-const syncEngine = new SrvraDataSync({
-    // Sync Configuration
-    syncInterval: 30000,
-    retryAttempts: 3,
-    batchSize: 100,
-    enableDeltaUpdates: true,
-    
-    // State Management
-    historySize: 50,
-    enableVersioning: true,
-    
-    // Conflict Resolution
-    mergeStrategy: 'smart-merge',
-    autoResolveThreshold: 0.8
-});
-
 ### Event Types
 // Core Events
 DATA_CHANGE
@@ -107,6 +89,24 @@ RECONNECTING
 PARTIAL_SYNC
 
 
+### Configuration
+```javascript
+const syncEngine = new SrvraDataSync({
+    // Sync Configuration
+    syncInterval: 30000,
+    retryAttempts: 3,
+    batchSize: 100,
+    enableDeltaUpdates: true,
+    
+    // State Management
+    historySize: 50,
+    enableVersioning: true,
+    
+    // Conflict Resolution
+    mergeStrategy: 'smart-merge',
+    autoResolveThreshold: 0.8
+});
+```
 
 ### Usage Examples
 
@@ -128,7 +128,7 @@ syncEngine.stateManager.setState('userProfile', {
 const state = syncEngine.stateManager.getState('userProfile', { 
     withMetadata: true 
 });
-
+```
 
 #### Real-time Sync with Subscribers
 // Subscribe to changes with priority
@@ -224,7 +224,7 @@ syncEngine.sync({
     immediate: true
 });
 
-
+```
 
 These examples showcase:
 - Core state management capabilities
@@ -236,7 +236,7 @@ These examples showcase:
 
 Each example demonstrates practical implementation scenarios that developers can directly apply to their projects.
 
-
+```
 ### Enterprise Features
 
 #### Advanced Security
@@ -267,7 +267,7 @@ const syncEngine = new SrvraDataSync({
     failoverStrategy: 'auto',
     loadBalancing: 'round-robin'
 }
-
+```
 #### Data Governance
 - Versioning and history retention
 - Data lineage tracking
@@ -335,7 +335,7 @@ syncEngine.support.createTicket({
     category: 'technical',
     description: 'Custom feature request'
 });
-
+```
 
 These enterprise capabilities provide:
 - Maximum security and compliance
@@ -352,7 +352,7 @@ Perfect for organizations requiring:
 - Custom integration needs
 - Advanced security requirements
 
-
+```
 
 
 ### Business Use Cases
@@ -367,6 +367,7 @@ syncEngine.setState('marketData', {
     priority: 'critical',
     syncInterval: 1000
 });
+```
 
 #### Healthcare Systems
 - Patient record synchronization
