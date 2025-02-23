@@ -33,21 +33,6 @@ SRVRA Sync handles millions of state updates while maintaining sub-millisecond l
 - <1ms average latency
 - Global state synchronization
 
-### Code Example: Simple Integration
-
-```javascript
-import { SrvraSync } from 'srvra-sync';
-
-// Initialize with enterprise features
-const sync = new SrvraSync({
-  persistence: true,
-  realtime: true,
-  security: true
-});
-
-// Start managing state
-sync.setState('users', userData);
-
 # Industry-Leading Benefits
 
 ## Performance
@@ -78,4 +63,34 @@ Our dedicated implementation team provides:
 ---
 
 SRVRA Sync revolutionizes state management by delivering enterprise capabilities in an ultra-lightweight package. Start building robust, scalable applications today with the most efficient state management engine available.
+
+
+### Code Example: Simple Integration
+
+```javascript
+// Initialize SRVRA Sync
+import { SrvraSync } from 'srvra-sync';
+
+// Configure enterprise features
+const sync = new SrvraSync({
+    persistence: true,  // Enable state persistence
+    realtime: true,    // Enable real-time sync
+    security: true     // Enable enterprise security
+});
+
+// Start managing state
+sync.setState('users', userData);
+
+// Subscribe to state changes
+sync.subscribe('users', (newState) => {
+    console.log('User state updated:', newState);
+});
+
+// Handle real-time updates
+sync.onSync((event) => {
+    console.log('Sync status:', event.status);
+});
+
+// Export sync instance
+export default sync;
 
