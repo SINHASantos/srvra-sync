@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SRVRA Sync - Shopping Cart Demo</title>
+    <h4 style="color: #2c3e50; font-size: 1.1em; margin: 8px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #3498db; text-align: center; letter-spacing: 0.5px; font-weight: 500;">
+        Real-Time Cart Synchronization with State Management
+    </h4>
+    
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .cart-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            position: sticky;
+            top: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .sync-status {
+            color: #2ecc71;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background: #eafaf1;
+        }
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-add {
+            background: #3498db;
+            color: white;
+        }
+        .btn-remove {
+            background: #e74c3c;
+            color: white;
+        }
+        .state-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="products-section">
+            <h2>Products</h2>
+            <div class="products" id="productList"></div>
+        </div>
+        
+        <div class="cart-section">
+            <div class="cart-panel">
+                <h2>Shopping Cart</h2>
+                <div id="cartItems"></div>
+                <div class="cart-summary">
+                    <h3>Total: $<span id="cartTotal">0.00</span></h3>
+                </div>
+                <div id="syncStatus" class="sync-status"></div>
+            </div>
+            
+            <div class="state-panel">
+                <h3>Cart State</h3>
+                <div id="stateView"></div>
+            </div>
+        </div>
+    </div>
+
+<script type="module">
+    import { SrvraDataSync } from '/js/srvra-sync/src/sync/SrvraDataSync.js';
+    
+    const syncEngine = new SrvraDataSync({
+        enableVersioning: true,
+        trackHistory: true
+    });
+
+    // Sample products data
+    const products = [
+        { id: 1, name: 'Laptop Pro', price: 1299.99 },
+        { id: 2, name: 'Wireless Mouse', price: 49.99 },
+        { id: 3, name: 'HD Monitor', price: 299.99 },
+        { id: 4, name: 'Mechanical Keyboard', price: 129.99 },
+        { id: 5, name: 'USB-C Hub', price: 59.99 },
+        { id: 6, name: 'Webcam 4K', price: 89.99 }
+    ];
+
+    // Initialize cart state
+    syncEngine.stateManager.setState('cart', {
+        items: {},
+        total: 0
+    });
+
+    // Render products
+    function renderProducts() {
+        const productList = document.getElementById('productList');
+        productList.innerHTML = products.map(product => `
+            <div class="product-card">
+                <h3>${product.name}</h3>
+                <p>$${product.price.toFixed(2)}</p>
+                <button class="btn btn-add" onclick="addToCart(${product.id})">
+                    Add to Cart
+                </button>
+            </div>
+        `).join('');
+    }
+
+    // Add to cart function
+    window.addToCart = (productId) => {
+        const product = products.find(p => p.id === productId);
+        const currentState = syncEngine.stateManager.getState('cart');
+        const items = { ...currentState.items };
+        
+        items[productId] = (items[productId] || 0) + 1;
+        
+        syncEngine.stateManager.setState('cart', {
+            items,
+            total: calculateTotal(items)
+        });
+
+        updateSyncStatus(`Added ${product.name} to cart`);
+    };
+
+    // Remove from cart function
+    window.removeFromCart = (productId) => {
+        const product = products.find(p => p.id === productId);
+        const currentState = syncEngine.stateManager.getState('cart');
+        const items = { ...currentState.items };
+        
+        if (items[productId] > 1) {
+            items[productId]--;
+        } else {
+            delete items[productId];
+        }
+        
+        syncEngine.stateManager.setState('cart', {
+            items,
+            total: calculateTotal(items)
+        });
+
+        updateSyncStatus(`Removed ${product.name} from cart`);
+    };
+
+    // Calculate total
+    function calculateTotal(items) {
+        return Object.entries(items).reduce((total, [productId, quantity]) => {
+            const product = products.find(p => p.id === parseInt(productId));
+            return total + (product.price * quantity);
+        }, 0);
+    }
+
+    // Render cart
+    function renderCart(state) {
+        const cartItems = document.getElementById('cartItems');
+        cartItems.innerHTML = Object.entries(state.items).map(([productId, quantity]) => {
+            const product = products.find(p => p.id === parseInt(productId));
+            return `
+                <div class="cart-item">
+                    <span>${product.name}</span>
+                    <div class="quantity-control">
+                        <button class="btn" onclick="removeFromCart(${productId})">-</button>
+                        <span>${quantity}</span>
+                        <button class="btn" onclick="addToCart(${productId})">+</button>
+                    </div>
+                </div>
+            `;
+        }).join('') || '<p>Cart is empty</p>';
+        
+        document.getElementById('cartTotal').textContent = state.total.toFixed(2);
+        document.getElementById('stateView').innerHTML = 
+            `<pre>${JSON.stringify(state, null, 2)}</pre>`;
+    }
+
+    // Update sync status
+    function updateSyncStatus(message) {
+        const status = document.getElementById('syncStatus');
+        status.textContent = message;
+        status.style.opacity = '1';
+        setTimeout(() => {
+            status.style.opacity = '0';
+        }, 2000);
+    }
+
+    // Subscribe to cart changes
+    syncEngine.stateManager.subscribe('cart', (state) => {
+        renderCart(state);
+    });
+
+    // Initialize the demo
+    renderProducts();
+</script>
+</body>
+</html>
