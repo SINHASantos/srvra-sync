@@ -361,3 +361,5 @@ As web applications continue to grow in complexity and scale, frameworks like Sr
 Whether building collaborative tools, real-time dashboards, or complex enterprise applications, Srvra-Sync provides the infrastructure needed to handle sophisticated state management and synchronization requirements, allowing developers to focus on building exceptional user experiences rather than wrestling with the complexities of distributed state.
 
 ## Learn More : [https://github.com/SINHASantos/srvra-sync](https://github.com/SINHASantos/srvra-sync)
+
+## Author: Santosh Sinha
